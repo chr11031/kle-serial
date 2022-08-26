@@ -167,8 +167,18 @@ export module Serial {
               if (split[0] != "") current.default.textColor = split[0];
               current.textColor = reorderLabelsIn(split, align);
             }
-            if (item.x) current.x += item.x;
-            if (item.y) current.y += item.y;
+            if (item.x) {
+              if (item.r || item.rx || item.ry)
+                current.x = item.x;
+              else
+                current.x += item.x
+            }
+            if (item.y) 
+              if (item.r || item.rx || item.ry)
+                current.y = item.y;
+              else
+                current.y += item.y
+            }
             if (item.w) current.width = current.width2 = item.w;
             if (item.h) current.height = current.height2 = item.h;
             if (item.x2) current.x2 = item.x2;
@@ -187,7 +197,7 @@ export module Serial {
 
         // End of the row
         current.y++;
-        current.x = current.rotation_x;
+        current.x = 0;
       } else if (typeof rows[r] === "object") {
         if (r != 0) {
           deserializeError(
